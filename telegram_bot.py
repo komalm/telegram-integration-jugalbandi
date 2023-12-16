@@ -20,8 +20,22 @@ start - Start the bot
 set_language - To choose language of your choice
 """
 
-uuid_number = "8dda07fe-9b24-11ee-92a3-0242ac110002"
+# Jugalabandi.ai 
+uuid_number = "02a7714e-9bdd-11ee-a325-42004e494300"
+api_host = "https://api.jugalbandi.ai"
+query_engine_route = 'query-with-langchain-gpt4'
+
+# http://20.244.48.128:9000/ 
+# uuid_number = "8dda07fe-9b24-11ee-92a3-0242ac110002"
+# api_host = "http://20.244.48.128:9000/"
+# query_engine_route = 'generate_answers'
+
+# Client Demo bot token
 bot = Bot(token="6380106812:AAFCXz-io-nrYpGCr1-EcCfbnUZWNjfzlic")
+
+# Developer Bot Token
+# bot = Bot(token="6773606048:AAEdJvRKQfG_SZhfiUX5fy1S5GLXgFpkUbo")
+
 
 try:
     from telegram import __version_info__
@@ -102,13 +116,13 @@ async def get_query_response(query: str, voice_message_url: str, voice_message_l
     try:
         if voice_message_url is None:
             if voice_message_language == "English":
-                query_engine_route = 'generate_answers'
+
                 params = {
                     'uuid_number': uuid_number,
                     'query_string': query,
                 }
 
-                url = f'http://20.244.48.128:9000/{query_engine_route}?' \
+                url = f'{api_host}/{query_engine_route}?' \
                       + urllib.parse.urlencode(params)
             else:
                 params = {
@@ -118,7 +132,7 @@ async def get_query_response(query: str, voice_message_url: str, voice_message_l
                     'input_language': voice_message_language,
                     'output_format': 'Text',
                 }
-                url = 'http://20.244.48.128:9000/query-using-voice-gpt4?' \
+                url = api_host + '/query-using-voice-gpt4?' \
                       + urllib.parse.urlencode(params)
         else:
             params = {
@@ -127,7 +141,7 @@ async def get_query_response(query: str, voice_message_url: str, voice_message_l
                 'input_language': voice_message_language,
                 'output_format': 'Voice',
             }
-            url = 'http://20.244.48.128:9000/query-using-voice-gpt4?' \
+            url = api_host + '/query-using-voice-gpt4?' \
                   + urllib.parse.urlencode(params)
 
         response = requests.get(url)
